@@ -1,14 +1,8 @@
 import cv2
 import os
-
+import numpy as np
 
 def preprocess_images(input_dir, output_dir, img_size=(128, 128)):
-    """
-    將input_dir中的圖片調整大小，並保存到output_dir中
-    :param input_dir: 原始圖片的文件夾
-    :param output_dir: 預處理後圖片的保存文件夾
-    :param img_size: 調整後圖片的大小（默認128x128）
-    """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -20,10 +14,29 @@ def preprocess_images(input_dir, output_dir, img_size=(128, 128)):
             # 調整大小
             img_resized = cv2.resize(img, img_size)
             output_path = os.path.join(output_dir, img_file)
-
-            # 保存處理後的圖片
             cv2.imwrite(output_path, img_resized)
 
+def split_data(input_dir, train_dir, test_dir, train_size=0.8):
+    if not os.path.exists(train_dir):
+        os.makedirs(train_dir)
+    if not os.path.exists(test_dir):
+        os.makedirs(test_dir)
 
-# 調用函數對圖片進行預處理
-preprocess_images("data/raw/", "data/processed/", img_size=(128, 128))
+    images = os.listdir(input_dir)
+    np.random.shuffle(images)
+
+    split_index = int(len(images) * train_size)
+    train_images = images[:split_index]
+    test_images = images[split_index:]
+
+    for img in train_images:
+        img_path = os.path.join(input_dir, img)
+        cv2.imwrite(os.path.join(train_dir, img), cv2.imread(img_path))
+
+    for img in test_images:
+        img_path = os.path.join(input_dir, img)
+        cv2.imwrite(os.path.join(test_dir, img), cv2.imread(img_path))
+
+# 調用預處理函數
+preprocess_images('data/raw/', 'data/processed/', img_size=(128, 128))
+split_data('data/processed/', 'data/train/', 'data/test/')
