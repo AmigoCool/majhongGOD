@@ -1,5 +1,9 @@
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 import tensorflow as tf
 from tensorflow.keras import layers, models
+
 
 
 def build_model(input_shape=(128, 128, 3)):
