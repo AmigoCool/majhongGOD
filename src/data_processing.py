@@ -30,12 +30,12 @@ def split_data(input_dir, train_dir, test_dir, train_size=0.8):
     test_images = images[split_index:]
 
     for img in train_images:
-        img_path = os.path.join(input_dir, img)
-        cv2.imwrite(os.path.join(train_dir, img), cv2.imread(img_path))
+        img_path = os.path.join("data/raw", img)
+        cv2.imwrite(os.path.join("data/processed", img), cv2.imread(img_path))
 
     for img in test_images:
-        img_path = os.path.join(input_dir, img)
-        cv2.imwrite(os.path.join(test_dir, img), cv2.imread(img_path))
+        img_path = os.path.join("data/raw", img)
+        cv2.imwrite(os.path.join("data/processed", img), cv2.imread(img_path))
 
 # 調用預處理函數
 preprocess_images('data/raw/', 'data/processed/', img_size=(128, 128))
