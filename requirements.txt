@@ -3,3 +3,6 @@ numpy==1.26.0
 tensorflow==2.16.1
 jupyter==1.0.0
 matplotlib==3.9.2
+ultralytics==8.3.53
+pyautogui==0.9.54
+mss==10.0.0
